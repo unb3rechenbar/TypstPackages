@@ -1,0 +1,7 @@
+[package]
+name = "LaTeX"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Tom Folgmann"]
+license = "GPL-3.0"
+description = "Diverse settings to align paper design to the LaTeX standard."
