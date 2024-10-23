@@ -15,6 +15,7 @@
   [
     #block(
       below: -6pt,
+      width: 100%,
       [*Beweis.*] + content
     )
     #align(right)[
@@ -100,6 +101,8 @@
   )
 ]
 
+// 9PKGLxW/2>OWl2|4
+
 #let lemcount = counter("lemcount")
 #let lemmabox(
   fill: luma(240),
@@ -128,7 +131,7 @@
   width: 100%,
   height: auto,
   stroke: (top: (paint: black, dash: "loosely-dotted"), bottom: (paint: black, dash: "loosely-dotted")),
-  inset: 10pt,
+  inset: (left: 5pt, right: 10pt, bottom: 10pt, top: 10pt),
   content
 ) = box(
   width: width,
