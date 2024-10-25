@@ -140,3 +140,27 @@
   inset: inset,
   par(leading: 0.65em, linebreaks: "optimized", text(size: 10pt, content))
 )
+
+#let afgbx(
+  width: 100%,
+  height: auto,
+  stroke: (top: (paint: black, dash: "loosely-dotted"), bottom: (paint: black, dash: "loosely-dotted")),
+  inset: (left: 5pt, right: 10pt, bottom: 10pt, top: 10pt),
+  content
+) = box(
+  width: width,
+  height: height,
+  stroke: stroke,
+  inset: inset,
+  par(
+    linebreaks: "optimized", 
+    text(size: 10pt, 
+      grid(
+      columns: (auto, 1fr),
+      column-gutter: 5pt,
+      row-gutter: 8pt,
+      ..content
+    )
+  ))
+  
+)
