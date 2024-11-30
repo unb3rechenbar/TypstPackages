@@ -20,6 +20,52 @@
   ]
 )
 
+#let beweisvon(title, content) = block(
+  fill: luma(250),
+  width: 100%,
+  height: auto,
+  // stroke: 0.5pt + rgb("#002fa7"),
+  radius: 5pt,
+  inset: 10pt,
+  breakable: true,
+  [
+    #block(
+      below: -6pt,
+      width: 100%,
+      [*Beweis #title.*] + content
+    )
+    #align(right)[
+      #move(dy: 2pt, 
+        square(size: 8pt, stroke: (thickness: 0.5pt, paint: rgb("#002fa7")), fill: white)
+      )
+    ]
+  ]
+)
+
+#let ideabox(content) = block(
+  fill: luma(250),
+  width: 100%,
+  height: auto,
+  // stroke: 0.5pt + rgb("#002fa7"),
+  radius: 5pt,
+  inset: 10pt,
+  breakable: true,
+  [
+    #block(
+      below: -6pt,
+      width: 100%,
+      [*Idea.*] + content
+    )
+    #align(right)[
+      #move(dy: 2pt, 
+        rotate(45deg,square(size: 8pt, stroke: (thickness: 0.5pt, paint: rgb("#002fa7")), fill: white))
+      )
+    ]
+  ]
+)
+
+#let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
+
 #let defcount = counter("defcount")
 #let definitionsbox(title, content) = block[
   #defcount.step()
@@ -29,7 +75,15 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Definition #counter(heading).display()#defcount.display().* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Definition #context{counter(heading).display("1.1")}.#context{defcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Definition]
+      )
+      #label(title.replace(" ", "-"))
 
       #content
     ]
@@ -48,7 +102,34 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Satz #counter(heading).display()#satcount.display().* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Satz #context{counter(heading).display("1.1")}.#context{satcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Satz]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+#let satdefcount = counter("satdefcount")
+#let satzdefbox(
+  title,
+  content
+) = block[
+  #satdefcount.step()
+  #box(
+    fill: luma(225),
+    width: 100%,
+    stroke: black + 0.5pt,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    [
+      *Satz und Definition #context{counter(heading).display("1.1")}.#context{satdefcount.display("1")}.* #title.
 
       #content
     ]
@@ -67,7 +148,7 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Korollar #counter(heading).display()#corcount.display().* #title.
+      *Korollar #context{counter(heading).display("1.1")}.#context{corcount.display("1")}.* #title.
 
       #content
     ]
@@ -86,7 +167,7 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Proposition #counter(heading).display()#propcount.display().* #title.
+      *Proposition #context{counter(heading).display("1.1")}.#context{propcount.display("1")}.* #title.
 
       #content
     ]
@@ -107,7 +188,7 @@
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     radius: 5pt,
     [
-      *Lemma #counter(heading).display()#lemcount.display().* #title.
+      *Lemma #context{counter(heading).display("1.1")}.#context{lemcount.display("1")}.* #title.
 
       #content
     ]
@@ -156,7 +237,23 @@
       column-gutter: 5pt,
       row-gutter: 8pt,
       // ..content.map(x => ([$->$],x)).flatten()
-      ..content.map(x => ($->$, x)).flatten()
+      ..content.map(x => ($ballot$, x)).flatten() 
     )
   ))
 )
+
+
+
+#let worumgehts(
+  content
+) = box(
+  fill: green.transparentize(90%),
+  stroke: green + 0.5pt,
+  inset: 10pt,
+  width: 100%,
+  radius: 5pt
+)[
+  *Worum geht's?*
+
+  #content
+]
