@@ -90,6 +90,9 @@
   )
 ]
 
+
+#let satref(lbl) = ref(label(lbl), supplement: [Satz #context{counter(heading).display("1.1")}.#h(-4pt)])
+
 #let satcount = counter("satcount")
 #let satzbox(
   title,
@@ -117,6 +120,9 @@
   )
 ]
 
+
+#let satzdefref(lbl) = ref(label(lbl), supplement: [Satz und Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
+
 #let satdefcount = counter("satdefcount")
 #let satzdefbox(
   title,
@@ -129,12 +135,23 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Satz und Definition #context{counter(heading).display("1.1")}.#context{satdefcount.display("1")}.* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Satz und Definition #context{counter(heading).display("1.1")}.#context{satdefcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Satz und Def.]
+      )
+      #label(title.replace(" ", "-"))
 
       #content
     ]
   )
 ]
+
+
+#let korref(lbl) = ref(label(lbl), supplement: [Korollar #context{counter(heading).display("1.1")}.#h(-4pt)])
 
 #let corcount = counter("corcount")
 #let korollarbox(
@@ -148,12 +165,23 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Korollar #context{counter(heading).display("1.1")}.#context{corcount.display("1")}.* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Korollar #context{counter(heading).display("1.1")}.#context{corcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Korollar]
+      )
+      #label(title.replace(" ", "-"))
 
       #content
     ]
   )
 ]
+
+
+#let propref(lbl) = ref(label(lbl), supplement: [Proposition #context{counter(heading).display("1.1")}.#h(-4pt)])
 
 #let propcount = counter("propcount")
 #let propbox(
@@ -167,14 +195,23 @@
     stroke: black + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
-      *Proposition #context{counter(heading).display("1.1")}.#context{propcount.display("1")}.* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Proposition #context{counter(heading).display("1.1")}.#context{propcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Proposition]
+      )
+      #label(title.replace(" ", "-"))
 
       #content
     ]
   )
 ]
 
-// 9PKGLxW/2>OWl2|4
+
+#let lemref(lbl) = ref(label(lbl), supplement: [Lemma #context{counter(heading).display("1.1")}.#h(-4pt)])
 
 #let lemcount = counter("lemcount")
 #let lemmabox(
@@ -188,7 +225,15 @@
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     radius: 5pt,
     [
-      *Lemma #context{counter(heading).display("1.1")}.#context{lemcount.display("1")}.* #title.
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *Lemma #context{counter(heading).display("1.1")}.#context{lemcount.display("1")}.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Lemma]
+      )
+      #label(title.replace(" ", "-"))
 
       #content
     ]
