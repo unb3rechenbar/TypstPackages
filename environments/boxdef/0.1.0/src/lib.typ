@@ -64,6 +64,17 @@
   ]
 )
 
+
+
+#let resetcounters() = {
+  counter("defcount").update(0)
+  counter("satcount").update(0)
+  counter("satdefcount").update(0)
+  counter("corcount").update(0)
+  counter("propcount").update(0)
+  counter("lemcount").update(0)
+}
+
 #let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
 
 #let defcount = counter("defcount")
@@ -78,7 +89,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Definition #context{counter(heading).display("1.1")}.#context{defcount.display("1")}.* #title.
+            *Definition #context{counter(heading).get().at(0)}.#context{defcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Definition]
@@ -108,7 +119,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Satz #context{counter(heading).display("1.1")}.#context{satcount.display("1")}.* #title.
+            *Satz #context{counter(heading).get().at(0)}.#context{satcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz]
@@ -138,7 +149,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Satz und Definition #context{counter(heading).display("1.1")}.#context{satdefcount.display("1")}.* #title.
+            *Satz und Definition #context{counter(heading).get().at(0)}.#context{satdefcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz und Def.]
@@ -168,7 +179,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Korollar #context{counter(heading).display("1.1")}.#context{corcount.display("1")}.* #title.
+            *Korollar #context{counter(heading).get().at(0)}.#context{corcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Korollar]
@@ -198,7 +209,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Proposition #context{counter(heading).display("1.1")}.#context{propcount.display("1")}.* #title.
+            *Proposition #context{counter(heading).get().at(0)}.#context{propcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Proposition]
@@ -228,7 +239,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Lemma #context{counter(heading).display("1.1")}.#context{lemcount.display("1")}.* #title.
+            *Lemma #context{counter(heading).get().at(0)}.#context{lemcount.display("1")}.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Lemma]
