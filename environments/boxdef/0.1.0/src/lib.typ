@@ -89,7 +89,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Definition #context{counter(heading).get().at(0)}.#context{defcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Definition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Definition]
@@ -102,14 +102,14 @@
 ]
 
 
-#let satref(lbl) = ref(label(lbl), supplement: [Satz #context{counter(heading).display("1.1")}.#h(-4pt)])
+#let satref(lbl) = ref(label(lbl), supplement: [Satz #context{counter(heading).get().at(0)}.#h(-4pt)])
 
 #let satcount = counter("satcount")
 #let satzbox(
   title,
   content
 ) = block[
-  #satcount.step()
+  #defcount.step()
   #box(
     fill: luma(225),
     width: 100%,
@@ -119,7 +119,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Satz #context{counter(heading).get().at(0)}.#context{satcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Satz.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz]
@@ -139,7 +139,7 @@
   title,
   content
 ) = block[
-  #satdefcount.step()
+  #defcount.step()
   #box(
     fill: luma(225),
     width: 100%,
@@ -149,7 +149,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Satz und Definition #context{counter(heading).get().at(0)}.#context{satdefcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Satz und Definition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz und Def.]
@@ -169,7 +169,7 @@
   title,
   content
 ) = block[
-  #corcount.step()
+  #defcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -179,7 +179,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Korollar #context{counter(heading).get().at(0)}.#context{corcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Korollar.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Korollar]
@@ -199,7 +199,7 @@
   title,
   content
 ) = block[
-  #propcount.step()
+  #defcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -209,7 +209,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Proposition #context{counter(heading).get().at(0)}.#context{propcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Proposition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Proposition]
@@ -229,7 +229,7 @@
   title,
   content
 ) = block[
-  #lemcount.step()
+  #defcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -239,7 +239,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *Lemma #context{counter(heading).get().at(0)}.#context{lemcount.display("1")}.* #title.
+            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Lemma.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Lemma]
