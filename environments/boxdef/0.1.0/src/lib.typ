@@ -67,9 +67,9 @@
 
 
 #let resetcounters() = {
-  counter("defcount").update(0)
+  counter("globalcount").update(0)
   counter("satcount").update(0)
-  counter("satdefcount").update(0)
+  counter("satglobalcount").update(0)
   counter("corcount").update(0)
   counter("propcount").update(0)
   counter("lemcount").update(0)
@@ -77,9 +77,9 @@
 
 #let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
 
-#let defcount = counter("defcount")
+#let globalcount = counter("globalcount")
 #let definitionsbox(title, content) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: white,
     width: 100%,
@@ -89,7 +89,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Definition.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Definition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Definition]
@@ -109,7 +109,7 @@
   title,
   content
 ) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: luma(225),
     width: 100%,
@@ -119,7 +119,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Satz.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz]
@@ -134,12 +134,12 @@
 
 #let satzdefref(lbl) = ref(label(lbl), supplement: [Satz und Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
 
-#let satdefcount = counter("satdefcount")
+#let satglobalcount = counter("satglobalcount")
 #let satzdefbox(
   title,
   content
 ) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: luma(225),
     width: 100%,
@@ -149,7 +149,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Satz und Definition.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Satz und Def.]
@@ -169,7 +169,7 @@
   title,
   content
 ) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -179,7 +179,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Korollar.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Korollar]
@@ -199,7 +199,7 @@
   title,
   content
 ) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -209,7 +209,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Proposition.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Proposition.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Proposition]
@@ -229,7 +229,7 @@
   title,
   content
 ) = block[
-  #defcount.step()
+  #globalcount.step()
   #box(
     fill: luma(240),
     width: 100%,
@@ -239,7 +239,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{defcount.display("1")} Lemma.* #title.
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.* #title.
           ]
         ], 
         kind: "boxhead", supplement: [Lemma]
@@ -250,6 +250,17 @@
     ]
   )
 ]
+
+
+
+
+// >==================================================================================< //
+//
+// Boxen für Aufgaben und Fragen
+//
+// >==================================================================================< //
+
+#let aufgcounter = counter("aufgcounter")
 
 #let aufgabenbox(
   content
@@ -290,15 +301,20 @@
     text(size: 10pt, 
       grid(
       columns: (auto, 1fr),
-      column-gutter: 5pt,
+      column-gutter: 3pt,
       row-gutter: 8pt,
       // ..content.map(x => ([$->$],x)).flatten()
-      ..content.map(x => ($ballot$, x)).flatten() 
+      ..content.map(x => ([$square_(#context{aufgcounter.step()}#context{aufgcounter.display("1")})$], x)).flatten() 
     )
   ))
 )
 
 
+// >==================================================================================< //
+//
+// Boxen für Kontextualisierung
+//
+// >==================================================================================< //
 
 #let worumgehts(
   content
@@ -313,3 +329,95 @@
 
   #content
 ]
+
+
+
+
+// >==================================================================================< //
+//
+//  Physikalisch und mathematisch angepasste Boxen (Koloriert)
+//
+// >==================================================================================< //
+
+#let phybembox(
+  title,
+  content
+) = block(
+  breakable: true,
+  [  
+    #globalcount.step()
+    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.*]) #title.
+
+    #content
+  ]
+)
+
+
+#let mabembox(
+  title,
+  content
+) = block(
+  breakable: true,
+  [
+    #globalcount.step()
+    #text(fill: blue.mix(green), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.*]) #title.
+
+    #content
+  ]
+)
+
+#let physatzbox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: orange.mix(red).transparentize(90%),
+    width: 100%,
+    stroke: orange.mix(red) + 0.5pt,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.* #title.
+          ]
+        ],
+        kind: "boxhead", supplement: [Satz]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+
+
+
+#let masatzbox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: blue.mix(green).transparentize(90%),
+    width: 100%,
+    stroke: blue.mix(green) + 0.5pt,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.* #title.
+          ]
+        ],
+        kind: "boxhead", supplement: [Satz]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
