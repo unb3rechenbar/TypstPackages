@@ -55,3 +55,16 @@
 #let cX = $cal(X)$
 #let cY = $cal(Y)$
 #let cZ = $cal(Z)$
+
+
+
+
+// > ========= Mathematik =========
+#let ci = $accent(dotless,compose)$
+
+#let cl = "cl"
+#let card = "card"
+#let Bild = "Bild"
+
+#let endlich = $italic("endlich")$
+#let unendlich = $italic("unendlich")$

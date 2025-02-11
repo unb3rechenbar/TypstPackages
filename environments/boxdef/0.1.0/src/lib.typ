@@ -74,10 +74,12 @@
   counter("propcount").update(0)
   counter("lemcount").update(0)
 }
-
-#let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
-
 #let globalcount = counter("globalcount")
+
+
+// #let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
+#let defref(lbl) = ref(label(lbl), supplement: [Def. #h(-4pt)])
+
 #let definitionsbox(title, content) = block[
   #globalcount.step()
   #box(
@@ -231,10 +233,10 @@
 ) = block[
   #globalcount.step()
   #box(
-    fill: luma(240),
+    fill: white,
     width: 100%,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
-    radius: 5pt,
+    // inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    // radius: 5pt,
     [
       #figure(
         block(width:100%)[
@@ -245,12 +247,11 @@
         kind: "boxhead", supplement: [Lemma]
       )
       #label(title.replace(" ", "-"))
-
+      
       #content
     ]
   )
 ]
-
 
 
 
@@ -309,6 +310,27 @@
   ))
 )
 
+#let deflist(
+  content
+) = align(right, (block(width: 98%, grid(
+  columns: (auto, 1fr),
+  column-gutter: 10pt,
+  row-gutter: 8pt,
+  align: (center, left),
+  // ..content.map(x => ([$->$],x)).flatten()
+  ..content
+))))
+
+#let worddeflist(
+  content
+) = align(right, (block(width: 98%, grid(
+  columns: (auto, 1fr),
+  column-gutter: 10pt,
+  row-gutter: 8pt,
+  align: (center, left),
+  // ..content.map(x => ([$->$],x)).flatten()
+  ..content
+))))
 
 // >==================================================================================< //
 //
@@ -344,11 +366,12 @@
   content
 ) = block(
   breakable: true,
+  width: 100%,
   [  
     #globalcount.step()
-    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.*]) #title.
-
+    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung*]) (#title).
     #content
+    #v(1em)
   ]
 )
 
@@ -358,13 +381,44 @@
   content
 ) = block(
   breakable: true,
+  width: 100%,
   [
     #globalcount.step()
-    #text(fill: blue.mix(green), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.*]) #title.
-
+    #text(fill: rgb("#002fa7"), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung*]) (#title). 
     #content
+    #v(1em)
   ]
 )
+
+#let phybspbox(
+  title,
+  content
+) = block(
+  breakable: true,
+  width: 100%,
+  [
+    #globalcount.step()
+    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel*]) (#title).
+    #content
+    #v(1em)
+  ]
+)
+
+#let mabspbox(
+  title,
+  content
+) = block(
+  breakable: true,
+  width: 100%,
+  [
+    #globalcount.step()
+    #text(fill: rgb("#002fa7"), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel*]) (#title). 
+    #content
+    #v(1em)
+  ]
+)
+
+
 
 #let physatzbox(
   title,
@@ -401,9 +455,9 @@
 ) = block[
   #globalcount.step()
   #box(
-    fill: blue.mix(green).transparentize(90%),
+    fill: rgb("#002fa7").transparentize(90%),
     width: 100%,
-    stroke: blue.mix(green) + 0.5pt,
+    stroke: rgb("#002fa7") + 0.5pt,
     inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
     [
       #figure(
@@ -413,6 +467,115 @@
           ]
         ],
         kind: "boxhead", supplement: [Satz]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+
+#let physatzdefbox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: orange.mix(red).transparentize(90%),
+    width: 100%,
+    stroke: orange.mix(red) + 0.5pt,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.* #title.
+          ]
+        ],
+        kind: "boxhead", supplement: [Satz und Def.]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+#let masatzdefbox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: rgb("#002fa7").transparentize(90%),
+    width: 100%,
+    stroke: rgb("#002fa7") + 0.5pt,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.* #title.
+          ]
+        ],
+        kind: "boxhead", supplement: [Satz und Def.]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+
+#let mlem(
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: white,
+    width: 100%,
+    [
+      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])*
+      #content
+    ]
+  )
+]
+
+#let plem(
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: white,
+    width: 100%,
+    [
+      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])*
+      #content
+    ]
+  )
+]
+
+
+#let malemmabox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: rgb("#002fa7").transparentize(90%),
+    width: 100%,
+    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    radius: 5pt,
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.* #title.
+          ]
+        ], 
+        kind: "boxhead", supplement: [Lemma]
       )
       #label(title.replace(" ", "-"))
 
