@@ -86,7 +86,7 @@
     fill: white,
     width: 100%,
     stroke: black + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -116,7 +116,7 @@
     fill: luma(225),
     width: 100%,
     stroke: black + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -146,7 +146,7 @@
     fill: luma(225),
     width: 100%,
     stroke: black + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -176,7 +176,7 @@
     fill: luma(240),
     width: 100%,
     stroke: black + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -206,7 +206,7 @@
     fill: luma(240),
     width: 100%,
     stroke: black + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -429,7 +429,7 @@
     fill: orange.mix(red).transparentize(90%),
     width: 100%,
     stroke: orange.mix(red) + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -444,6 +444,7 @@
       #content
     ]
   )
+  #v(1em)
 ]
 
 
@@ -458,7 +459,7 @@
     fill: rgb("#002fa7").transparentize(90%),
     width: 100%,
     stroke: rgb("#002fa7") + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -485,7 +486,7 @@
     fill: orange.mix(red).transparentize(90%),
     width: 100%,
     stroke: orange.mix(red) + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -511,7 +512,7 @@
     fill: rgb("#002fa7").transparentize(90%),
     width: 100%,
     stroke: rgb("#002fa7") + 0.5pt,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
@@ -557,6 +558,61 @@
   )
 ]
 
+#let mcor(
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: white,
+    width: 100%,
+    [
+      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])*
+      #content
+    ]
+  )
+]
+
+#let mcorbox(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: rgb("#002fa7").transparentize(90%),
+    width: 100%,
+    stroke: rgb("#002fa7") + 0.5pt,
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
+    [
+      #figure(
+        block(width:100%)[
+          #align(left)[
+            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])* #title.
+          ]
+        ],
+        kind: "boxhead", supplement: [Korollar]
+      )
+      #label(title.replace(" ", "-"))
+
+      #content
+    ]
+  )
+]
+
+
+#let pcor(
+  content
+) = block[
+  #globalcount.step()
+  #box(
+    fill: white,
+    width: 100%,
+    [
+      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])*
+      #content
+    ]
+  )
+]
+
 
 #let malemmabox(
   title,
@@ -566,7 +622,7 @@
   #box(
     fill: rgb("#002fa7").transparentize(90%),
     width: 100%,
-    inset: (left: 20pt, right: 20pt, bottom: 20pt, top: 17pt),
+    inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     radius: 5pt,
     [
       #figure(
