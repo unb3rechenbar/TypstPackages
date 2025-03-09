@@ -62,7 +62,6 @@
 // > ========= Mathematik =========
 #let ci = $accent(dotless,compose)$
 
-#let cl = "cl"
 #let card = "card"
 #let Bild = "Bild"
 

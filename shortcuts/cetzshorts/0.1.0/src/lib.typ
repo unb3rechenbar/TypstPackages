@@ -1,0 +1,6 @@
+
+
+#let cetzmanifold(
+  center,
+  size
+) = 
