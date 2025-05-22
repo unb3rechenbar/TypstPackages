@@ -1,35 +1,69 @@
 #let mathblue = rgb("#002fa7")
-#let physicsorange = orange.mix(red)
+// #let phycol = mathblue.rotate(-230deg)
+// #let phycol = rgb("#ff0000").rotate(10deg)
+// #let phycol = rgb("#dd2afb").rotate(-10deg)
+// #let phycol = rgb("f2a03d")
+#let phycol = rgb("568203")
+#let phycol = rgb("008000")
 
 #let thmspace = 0.8em
 
+#let resetcounters() = {
+  counter("globalcount").update(0)
+  counter("satcount").update(0)
+  counter("satglobalcount").update(0)
+  counter("corcount").update(0)
+  counter("propcount").update(0)
+  counter("lemcount").update(0)
+}
+#let globalcount = counter("globalcount")
 
-#let beweisbox(content) = block(
+// #let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
+#let defref(lbl) = ref(label(lbl), supplement: [Def. #h(-4pt)])
+
+
+
+/* 
+*     PROOFS
+*
+*     This section contains definitions of proof environments.
+*
+*
+*
+*/
+
+#let proof(
+  content
+) = block(
   width: 100%)[
     #v(-thmspace)
     #block(
-      fill: luma(250),
+      fill: luma(245),
       width: 100%,
       radius: 5pt,
       inset: 10pt,
       breakable: true
-      )[
-        #block(
-          below: -6pt,
-          width: 100%,
-          [*_Proof._*] + text(style: "italic", content)
-        )
-        #align(right)[
-          #move(dy: 2pt, 
-            square(size: 8pt, stroke: (thickness: 0.5pt, paint: rgb("#002fa7")), fill: white)
+    )[
+      #{
+          set text(
+            size: 10pt,
+            style: "italic"
           )
-        ]
+          set par(spacing: 0.75em)
+          content
+        }
+
+        #place(
+          right + bottom,
+          dx: 2pt,
+          dy: 4pt,
+          square(size: 8pt, stroke: (thickness: 0.5pt, paint: mathblue), fill: white)
+        )
       ]
       #v(thmspace)
 ]
 
-
-#let beweisvon(title, content) = block(
+#let proofof(title, content) = block(
   fill: luma(250),
   width: 100%,
   height: auto,
@@ -73,21 +107,254 @@
   ]
 )
 
+/*
+*
+*   Legacy Code for proofs.
+*
+*/
+#let beweisvon(title,content) = proofof(title, content)
+#let beweisbox(content) = proof(content)
+
+// <==========================================================================> //
+
+/*
+*
+*   Various mathematical environments for theorems, definitions, lemmas, etc.
+*
+*
+*
+*/
 
 
-#let resetcounters() = {
-  counter("globalcount").update(0)
-  counter("satcount").update(0)
-  counter("satglobalcount").update(0)
-  counter("corcount").update(0)
-  counter("propcount").update(0)
-  counter("lemcount").update(0)
-}
-#let globalcount = counter("globalcount")
+#let baseenvcol(
+  title,
+  supplement,
+  kind,
+  content
+) = block[
+  #globalcount.step()
+
+  #figure(
+    block(
+      breakable: true,
+      width: 100%,
+      align(
+        left,
+        underline(
+          stroke: mathblue,
+          text(
+            fill: mathblue,
+            weight: "bold",
+            text(
+              context{
+                if counter(heading).get().len() >= 1 {
+                  return text(context{counter(heading).get().first()})
+                } else {
+                  return ""
+                }
+              }
+            )
+            + text(
+              context{
+                if counter(heading).get().len() >= 2 {
+                  return "." + text(context{counter(heading).get().at(1)})
+                } else {
+                  return ""
+                }
+              }
+            ) 
+            + "." 
+            + text(context{globalcount.display("1")}) 
+            + " " 
+            + supplement 
+            + "."
+          ) 
+          + text(
+            context{
+              if title != "" {
+                return " " + text(fill: mathblue, "(") + title + text(fill: mathblue, ")") + "."
+              } else {
+                return ""
+              }
+            }
+          )
+        )
+        + content
+      )
+    ),
+    kind: kind,
+    supplement: supplement,
+  )
+
+  #v(thmspace)
+]
+
+#let rbaseenvcol(
+  title,
+  supplement,
+  kind,
+  content
+) = block[
+  #globalcount.step()
+
+  #figure(
+    block(
+      breakable: true,
+      width: 100%,
+      align(
+        left,
+        underline(
+          stroke: mathblue,
+          text(
+            fill: mathblue,
+            weight: "bold",
+            text(
+              context{
+                if counter(heading).get().len() >= 1 {
+                  return text(context{counter(heading).get().first()})
+                } else {
+                  return ""
+                }
+              }
+            )
+            + text(
+              context{
+                if counter(heading).get().len() >= 2 {
+                  return "." + text(context{counter(heading).get().at(1)})
+                } else {
+                  return ""
+                }
+              }
+            ) 
+            + "." 
+            + text(context{globalcount.display("1")}) 
+            + " " 
+            + supplement 
+            + "."
+          ) 
+          + text(
+            context{
+              if title != "" {
+                return " " + text(fill: mathblue, "(") + title + text(fill: mathblue, ")") + "."
+              } else {
+                return ""
+              }
+            }
+          )
+        )
+        + content
+      )
+    ),
+    kind: kind,
+    supplement: supplement,
+  ) #label(title.replace(" ", "-"))
+
+  #v(thmspace)
+]
 
 
-// #let defref(lbl) = ref(label(lbl), supplement: [Def. #context{counter(heading).display("1.1")}.#h(-4pt)])
-#let defref(lbl) = ref(label(lbl), supplement: [Def. #h(-4pt)])
+
+#let mdef(title,content) = rbaseenvcol(
+  title,
+  "Definition",
+  "mdef",
+  content
+)
+
+#let rmprop(title,content) = rbaseenvcol(
+  title,
+  "Proposition",
+  "mprop",
+  content
+)
+
+#let rmbem(title,content) = rbaseenvcol(
+  title,
+  "Bemerkung",
+  "mbem",
+  content
+)
+
+#let rmsatz(title,content) = rbaseenvcol(
+  title,
+  "Satz",
+  "msatz",
+  content
+)
+
+#let rmcor(title,content) = rbaseenvcol(
+  title,
+  "Korollar",
+  "mcor",
+  content
+)
+
+#let rmlem(title,content) = rbaseenvcol(
+  title,
+  "Lemma",
+  "mlem",
+  content
+)
+
+#let rmbsp(title,content) = rbaseenvcol(
+  title,
+  "Beispiel",
+  "mbsp",
+  content
+)
+
+#let mprop(content) = baseenvcol(
+  "",
+  "Proposition",
+  "mprop",
+  content
+)
+
+#let mbem(content) = baseenvcol(
+  "",
+  "Bemerkung",
+  "mbem",
+  content
+)
+
+#let msatz(content) = baseenvcol(
+  "",
+  "Satz",
+  "msatz",
+  content
+)
+
+#let mcor(content) = baseenvcol(
+  "",
+  "Korollar",
+  "mcor",
+  content
+)
+
+#let mlem(content) = baseenvcol(
+  "",
+  "Lemma",
+  "mlem",
+  content
+)
+
+#let mbsp(content) = baseenvcol(
+  "",
+  "Beispiel",
+  "mbsp",
+  content
+)
+
+
+
+
+
+
+
+
+
+
+
 
 #let definitionsbox(title, content) = block[
   #globalcount.step()
@@ -113,7 +380,62 @@
 ]
 
 
+
+
+
+
+
+
+#let msatzdef(
+  title,
+  content
+) = block[
+  #globalcount.step()
+  #figure(block(
+    breakable: true,
+    fill: white,
+    width: 100%,
+    align(left)[
+      #underline(stroke: mathblue)[*#text(fill: mathblue, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz und Definition.])* #text(fill: mathblue, [(])#title#text(fill: mathblue, [)]).]
+      #content
+    ]
+  ),
+  kind: "msatzdef",
+  supplement: [Satz]
+  ) #label(title.replace(" ", "-"))
+  #v(thmspace)
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+*  =======================================================================
+*
+*
+*
+*  =======================================================================
+*/
+
+
+
 #let satref(lbl) = ref(label(lbl), supplement: [Satz #context{counter(heading).get().at(0)}.#h(-4pt)])
+
+
+
+
 
 #let satcount = counter("satcount")
 #let satzbox(
@@ -232,7 +554,9 @@
   )
 ]
 
-#let mprop(
+
+
+#let pprop(
   content
 ) = block[
   #globalcount.step()
@@ -241,14 +565,14 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Proposition.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Proposition.])*
       #content
     ]
   )
   #v(thmspace)
 ]
 
-#let rmprop(
+#let rpprop(
   reference,
   content
 ) = block[
@@ -258,15 +582,34 @@
     fill: white,
     width: 100%,
     align(left)[
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Proposition.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Proposition.])*
       #content
     ]
   ),
-  kind: "mprop",
+  kind: "pprop",
   supplement: [Proposition]
   ) #label(reference.replace(" ", "-"))
   #v(thmspace)
 ]
+
+#let mpropsa(
+  content
+) = block[
+  #globalcount.step()
+  #block(
+    breakable: true,
+    fill: white,
+    width: 100%,
+    [
+      *#text(fill: mathblue, [Proposition.])*
+      #content
+    ]
+  )
+  #v(thmspace)
+]
+
+// #show figure.where(kind: "mprop"): set figure(numbering: ("(1)"))
+
 
 
 
@@ -415,7 +758,7 @@
   width: 100%,
   [  
     #globalcount.step()
-    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung*]) (#title).
+    #text(fill: phycol, [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung*]) (#title).
     #content
     #v(1em)
   ]
@@ -430,10 +773,11 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Bemerkung.])*
       #content
     ]
   )
+  #v(thmspace)
 ]
 
 
@@ -445,51 +789,16 @@
   breakable: true,
   width: 100%)[
     #globalcount.step()
-    #text(fill: rgb("#002fa7"), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung*]) (#title). 
+    #text(fill: rgb("#002fa7"), [*#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Bemerkung*]) (#title). 
     #content
 
     #v(thmspace)
 ]
 
 
-#let mbem(
-  content
-) = block[
-  #globalcount.step()
-  #figure(block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    align(left)[
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.])*
-      #content
-    ]
-  ),
-  kind: "mbem",
-  supplement: [Definition]
-  ) 
-  #v(thmspace)
-]
 
-#let rmbem(
-  reference,
-  content
-) = block[
-  #globalcount.step()
-  #figure(block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    align(left)[
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Bemerkung.])*
-      #content
-    ]
-  ),
-  kind: "mbem",
-  supplement: [Definition]
-  ) #label(reference.replace(" ", "-"))
-  #v(thmspace)
-]
+
+
 
 
 
@@ -502,7 +811,7 @@
   width: 100%,
   [
     #globalcount.step()
-    #text(fill: orange.mix(red), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel*]) (#title).
+    #text(fill: phycol, [*#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel*]) (#title).
     #content
     #v(1em)
   ]
@@ -517,7 +826,7 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel.])*
       #content
     ]
   )
@@ -532,13 +841,16 @@
   width: 100%,
   [
     #globalcount.step()
-    #text(fill: rgb("#002fa7"), [*#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel*]) (#title). 
+    #text(fill: mathblue, [*#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel*]) (#title). 
     #content
     #v(1em)
   ]
 )
 
-#let mbsp(
+
+
+#let rpbsp(
+  title,
   content
 ) = block[
   #globalcount.step()
@@ -547,13 +859,12 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Beispiel.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel. (#title).])*
       #content
     ]
   )
   #v(thmspace)
 ]
-
 
 
 
@@ -563,15 +874,15 @@
 ) = block[
   #globalcount.step()
   #box(
-    fill: orange.mix(red).transparentize(90%),
+    fill: phycol.transparentize(90%),
     width: 100%,
-    stroke: orange.mix(red) + 0.5pt,
+    stroke: phycol + 0.5pt,
     inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.* #title.
+            *#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz.* #title.
           ]
         ],
         kind: "boxhead", supplement: [Satz]
@@ -601,7 +912,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.* #title.
+            *#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz.* #title.
           ]
         ],
         kind: "boxhead", supplement: [Satz]
@@ -613,42 +924,7 @@
   )
 ]
 
-#let msatz(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
 
-
-#let rmsatz(
-  reference,
-  content
-) = block[
-  #globalcount.step()
-  #figure(block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    align(left)[
-      #underline(stroke: mathblue)[*#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz.])* #text(fill: mathblue, [(])#reference#text(fill: mathblue, [)]).]
-      #content
-    ]
-  ),
-  kind: "msatz",
-  supplement: [Satz]
-  ) #label(reference.replace(" ", "-"))
-  #v(thmspace)
-]
 
 
 
@@ -658,15 +934,15 @@
 ) = block[
   #globalcount.step()
   #box(
-    fill: orange.mix(red).transparentize(90%),
+    fill: phycol.transparentize(90%),
     width: 100%,
-    stroke: orange.mix(red) + 0.5pt,
+    stroke: phycol + 0.5pt,
     inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.* #title.
+            *#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz und Definition.* #title.
           ]
         ],
         kind: "boxhead", supplement: [Satz und Def.]
@@ -679,26 +955,8 @@
 ]
 
 
-#let mdef(
-  title,
-  content
-) = block[
-  #globalcount.step()
-  #figure(block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    align(left)[
-      #underline(stroke: mathblue)[*#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Definition.])* #text(fill: mathblue, [(])#title#text(fill: mathblue, [)]).]
-      #content
-    ]
-  ),
-  kind: "mdef",
-  supplement: [Definition],
-  caption: title
-  ) #label(title.replace(" ", "-"))
-  #v(thmspace)
-]
+
+
 
 #let mdefbox(
   title,
@@ -713,7 +971,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Definition.])* #title.
+            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Definition.])* #title.
           ]
         ],
         kind: "box", supplement: [Definition]
@@ -737,7 +995,7 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Definition.])* (#title).
+      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Definition.])* (#title).
       #content
     ]
   )
@@ -751,13 +1009,13 @@
   #globalcount.step()
   #box(
     width: 100%,
-    stroke: orange.mix(red) + 0.5pt,
+    stroke: phycol + 0.5pt,
     inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
           #align(left)[
-            *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Definition.])* #title.
+            *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Definition.])* #title.
           ]
         ],
         kind: "box", supplement: [Definition]
@@ -787,7 +1045,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.* #title.
+            *#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz und Definition.* #title.
           ]
         ],
         kind: "boxhead", supplement: [Satz und Def.]
@@ -799,7 +1057,9 @@
   )
 ]
 
-#let msatzdef(
+
+
+#let psatzdef(
   title,
   content
 ) = block[
@@ -809,7 +1069,7 @@
     fill: white,
     width: 100%,
     align(left)[
-      #underline(stroke: mathblue)[*#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Satz und Definition.])* #text(fill: mathblue, [(])#title#text(fill: mathblue, [)]).]
+      #underline(stroke: phycol)[*#text(fill: rgb(phycol), [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Satz und Definition.])* #text(fill: phycol, [(])#title#text(fill: mathblue, [)]).]
       #content
     ]
   ),
@@ -821,40 +1081,7 @@
 
 
 
-#let mlem(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
 
-#let rmlem(
-  reference,
-  content
-) = block[
-  #globalcount.step()
-  #figure(box(
-    fill: white,
-    width: 100%,
-    align(left)[
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])* (#reference).
-      #content
-    ]
-  ),
-  kind: "mlem",
-  supplement: [Lemma]
-  ) #label(reference.replace(" ", "-"))
-  #v(thmspace)
-]
 
 
 #let plem(
@@ -866,27 +1093,13 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(0).display("i")}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Lemma.])*
       #content
     ]
   )
 ]
 
-#let mcor(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
+
 
 #let mcorbox(
   title,
@@ -902,7 +1115,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])* #title.
+            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Korollar.])* #title.
           ]
         ],
         kind: "boxhead", supplement: [Korollar]
@@ -924,7 +1137,7 @@
     fill: white,
     width: 100%,
     [
-      *#text(fill: orange.mix(red), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.])*
+      *#text(fill: phycol, [#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Korollar.])*
       #content
     ]
   )
@@ -937,15 +1150,15 @@
 ) = block[
   #globalcount.step()
   #box(
-    fill: orange.mix(red).transparentize(90%),
+    fill: phycol.transparentize(90%),
     width: 100%,
-    stroke: orange.mix(red) + 0.5pt,
+    stroke: phycol + 0.5pt,
     inset: (left: 15pt, right: 15pt, bottom: 17pt, top: 15pt),
     [
       #figure(
         block(width:100%)[
           #align(left)[
-            *#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Korollar.* #title.
+            *#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Korollar.* #title.
           ]
         ],
         kind: "boxhead", supplement: [Korollar]
@@ -972,7 +1185,7 @@
       #figure(
         block(width:100%)[
           #align(left)[
-            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(0)}.#context{globalcount.display("1")} Lemma.])* #title.
+            *#text(fill: rgb("#002fa7"), [#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Lemma.])* #title.
           ]
         ], 
         kind: "box", supplement: [Lemma]
