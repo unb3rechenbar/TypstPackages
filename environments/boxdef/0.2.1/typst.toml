@@ -1,0 +1,7 @@
+[package]
+name = "boxdef"
+version = "0.2.1"
+entrypoint = "src/lib.typ"
+authors = ["Tom Folgmann"]
+license = "GPL-3.0"
+description = "A library containing predefined lemma, definitio, theorem, proof and more boxes to faster produce typical designed papers."
