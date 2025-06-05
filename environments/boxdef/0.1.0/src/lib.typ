@@ -47,7 +47,6 @@
       #{
           set text(
             size: 10pt,
-            style: "italic"
           )
           set par(spacing: 0.75em)
           content
@@ -130,10 +129,12 @@
   title,
   supplement,
   kind,
-  content
+  content,
+  color
 ) = block[
   #globalcount.step()
 
+  #v(thmspace)
   #figure(
     block(
       breakable: true,
@@ -141,9 +142,9 @@
       align(
         left,
         underline(
-          stroke: mathblue,
+          stroke: color,
           text(
-            fill: mathblue,
+            fill: color,
             weight: "bold",
             text(
               context{
@@ -172,7 +173,7 @@
           + text(
             context{
               if title != "" {
-                return " " + text(fill: mathblue, "(") + title + text(fill: mathblue, ")") + "."
+                return " " + text(fill: color, "(") + title + text(fill: color, ")") + "."
               } else {
                 return ""
               }
@@ -193,10 +194,12 @@
   title,
   supplement,
   kind,
-  content
+  content,
+  color
 ) = block[
   #globalcount.step()
-
+  
+  #v(thmspace)
   #figure(
     block(
       breakable: true,
@@ -204,9 +207,9 @@
       align(
         left,
         underline(
-          stroke: mathblue,
+          stroke: color,
           text(
-            fill: mathblue,
+            fill: color,
             weight: "bold",
             text(
               context{
@@ -235,7 +238,7 @@
           + text(
             context{
               if title != "" {
-                return " " + text(fill: mathblue, "(") + title + text(fill: mathblue, ")") + "."
+                return " " + text(fill: color, "(") + title + text(fill: color, ")") + "."
               } else {
                 return ""
               }
@@ -258,92 +261,182 @@
   title,
   "Definition",
   "mdef",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let rmprop(title,content) = rbaseenvcol(
   title,
   "Proposition",
   "mprop",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let rmbem(title,content) = rbaseenvcol(
   title,
   "Bemerkung",
   "mbem",
-  content
+  content,
+  mathblue
 )
 
 #let rmsatz(title,content) = rbaseenvcol(
   title,
   "Satz",
   "msatz",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let rmcor(title,content) = rbaseenvcol(
   title,
   "Korollar",
   "mcor",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let rmlem(title,content) = rbaseenvcol(
   title,
   "Lemma",
   "mlem",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let rmbsp(title,content) = rbaseenvcol(
   title,
   "Beispiel",
   "mbsp",
-  content
+  content,
+  mathblue
 )
 
 #let mprop(content) = baseenvcol(
   "",
   "Proposition",
   "mprop",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let mbem(content) = baseenvcol(
   "",
   "Bemerkung",
   "mbem",
-  content
+  content,
+  mathblue
 )
 
 #let msatz(content) = baseenvcol(
   "",
   "Satz",
   "msatz",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let mcor(content) = baseenvcol(
   "",
   "Korollar",
   "mcor",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let mlem(content) = baseenvcol(
   "",
   "Lemma",
   "mlem",
-  content
+  text(style: "italic", content),
+  mathblue
 )
 
 #let mbsp(content) = baseenvcol(
   "",
   "Beispiel",
   "mbsp",
-  content
+  content,
+  mathblue
 )
+
+
+
+
+
+
+
+
+
+#let pdef(title, content) = baseenvcol(
+  title,
+  "Definition",
+  "pdef",
+  content,
+  phycol
+)
+
+
+#let pprop(content) = baseenvcol(
+  "",
+  "Proposition",
+  "pprop",
+  content,
+  phycol
+)
+
+#let pbem(content) = baseenvcol(
+  "",
+  "Bemerkung",
+  "pbem",
+  content,
+  phycol
+)
+
+#let pcor(content) = baseenvcol(
+  "",
+  "Korollar",
+  "pcor",
+  content,
+  phycol
+)
+
+#let plem(content) = baseenvcol(
+  "",
+  "Lemma",
+  "plem",
+  content,
+  phycol
+)
+
+#let pbsp(content) = baseenvcol(
+  "",
+  "Beispiel",
+  "pbsp",
+  content,
+  phycol
+)
+
+
+
+
+#let rpprop(title, content) = rbaseenvcol(
+  title,
+  "Proposition",
+  "pprop",
+  content,
+  phycol
+)
+
+#let rpbsp(title, content) = rbaseenvcol(
+  title,
+  "Beispiel",
+  "pbsp",
+  content,
+  phycol
+)
+
 
 
 
@@ -556,41 +649,9 @@
 
 
 
-#let pprop(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Proposition.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
 
-#let rpprop(
-  reference,
-  content
-) = block[
-  #globalcount.step()
-  #figure(block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    align(left)[
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Proposition.])*
-      #content
-    ]
-  ),
-  kind: "pprop",
-  supplement: [Proposition]
-  ) #label(reference.replace(" ", "-"))
-  #v(thmspace)
-]
+
+
 
 #let mpropsa(
   content
@@ -764,22 +825,6 @@
   ]
 )
 
-#let pbem(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Bemerkung.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
-
 
 
 #let mabembox(
@@ -817,21 +862,7 @@
   ]
 )
 
-#let pbsp(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
+
 
 #let mabspbox(
   title,
@@ -849,22 +880,7 @@
 
 
 
-#let rpbsp(
-  title,
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Beispiel. (#title).])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
+
 
 
 
@@ -985,22 +1001,7 @@
 ]
 
 
-#let pdef(
-  title,
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0)}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Definition.])* (#title).
-      #content
-    ]
-  )
-  #v(thmspace)
-]
+
 
 #let phydefbox(
   title,
@@ -1084,20 +1085,7 @@
 
 
 
-#let plem(
-  content
-) = block[
-  #globalcount.step()
-  #block(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(0).display("i")}.#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Lemma.])*
-      #content
-    ]
-  )
-]
+
 
 
 
@@ -1128,21 +1116,7 @@
 ]
 
 
-#let pcor(
-  content
-) = block[
-  #globalcount.step()
-  #blobk(
-    breakable: true,
-    fill: white,
-    width: 100%,
-    [
-      *#text(fill: phycol, [#context{counter(heading).get().at(1)}.#context{globalcount.display("1")} Korollar.])*
-      #content
-    ]
-  )
-  #v(thmspace)
-]
+
 
 #let pcorbox(
   title,
