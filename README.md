@@ -4,7 +4,8 @@ This repository contains code to design typst documents the way I did using LaTe
 # Table of Contents
 1. [Installation](#installation)
 2. [Usage](#usage)
-3. [Examples](#examples)
+3. [Versions](#versions)
+4. [Examples](#examples)
 
 # Installation
 To install the package, clone the repository to your local Typst installation. The path usually follows `{data-dir}/typst/packages/{namespace}/{name}/{version}`, where `{data-dir}` is given depending on your operating system. See
@@ -19,20 +20,21 @@ The packages usage is straightforward, using Typst package management system. Ju
 ```
 #import "@environments/boxdef:0.1.0": *
 ```
-to use the package `boxdef` in version `0.1.0` from the namespace `environments`. The `*` is a wildcard to import all definitions from the package.
+to use the package `boxdef` in version `0.1.0` from the namespace `environments`. The `*` is a wildcard to import all definitions contained in the package. You can also import specific definitions by replacing `*` with the name of the definition you want to use.
 
+
+# Versions
+Notice that there are multiple versions of the same package available, as you can see in the repository tree. My intent is to assure backwards compatibility by introducing legacy code, which may not always be possible.
 
 # Examples
 A quick example for the definition environment in `boxdef` could be:
 ```
-#import "@environments/boxdef:0.1.0": *
+#import "@environments/boxdef:0.2.1": *
 
 #set heading(numbering: "1.")
 
-#definitionsbox(
-  "Neue Definition",
-  [
-    Das hier ist eine Definition, welche die vordefinierte Box nutzt, *OHNE* jemals speziell in diesem Dokment definiert worden zu sein.
-  ]
-)
+#mdef("My First Definition")[
+   We call a manifold $M$ _my way_ if it has _this_ fancy property.
+]
+
 ```
