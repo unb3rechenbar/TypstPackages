@@ -1,0 +1,7 @@
+[package]
+name = "DiffGeo"
+version = "0.1.0"
+entrypoint = "src/lib.typ"
+authors = ["Tom Folgmann"]
+license = "GPL-3.0"
+description = "Collection of Symbols and Notations for uniform language in Differential Geometry"
