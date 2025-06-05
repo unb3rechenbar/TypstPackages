@@ -31,8 +31,6 @@ A quick example for the definition environment in `boxdef` could be:
 ```
 #import "@environments/boxdef:0.2.1": *
 
-#set heading(numbering: "1.")
-
 #mdef("My First Definition")[
    We call a manifold $M$ _my way_ if it has _this_ fancy property.
 ]
